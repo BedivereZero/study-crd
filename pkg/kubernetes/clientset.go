@@ -21,8 +21,8 @@ package kubernetes
 import (
 	"fmt"
 
+	networkingv1beta1 "github.com/BedivereZero/study-crd/pkg/kubernetes/typed/networking/v1beta1"
 	discovery "k8s.io/client-go/discovery"
-	networkingv1beta1 "k8s.io/client-go/kubernetes/typed/networking/v1beta1"
 	rest "k8s.io/client-go/rest"
 	flowcontrol "k8s.io/client-go/util/flowcontrol"
 )
