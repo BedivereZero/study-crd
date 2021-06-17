@@ -2,12 +2,14 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"log"
 	"time"
 
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
 	"k8s.io/client-go/kubernetes"
+	// "github.com/BedivereZero/study-crd/pkg/kubernetes"
 	"k8s.io/client-go/rest"
 	//
 	// Uncomment to load all auth plugins
@@ -32,26 +34,25 @@ func main() {
 		panic(err.Error())
 	}
 	for {
-		// get pods in all the namespaces by omitting namespace
-		// Or specify namespace to get pods in particular namespace
-		pods, err := clientset.CoreV1().Pods("").List(context.TODO(), metav1.ListOptions{})
+		ingressClasses, err := clientset.NetworkingV1beta1().IngressClasses().List(context.TODO(), metav1.ListOptions{})
 		if err != nil {
-			panic(err.Error())
+			log.Print(err)
 		}
-		fmt.Printf("There are %d pods in the cluster\n", len(pods.Items))
+		log.Printf("There are %d ingressClasses in the cluster", len(ingressClasses.Items))
 
 		// Examples for error handling:
 		// - Use helper functions e.g. errors.IsNotFound()
 		// - And/or cast to StatusError and use its properties like e.g. ErrStatus.Message
-		_, err = clientset.CoreV1().Pods("default").Get(context.TODO(), "example-xxxxx", metav1.GetOptions{})
+		// _, err = clientset.CoreV1().Pods("default").Get(context.TODO(), "example-xxxxx", metav1.GetOptions{})
+		_, err = clientset.NetworkingV1beta1().IngressClasses().Get(context.TODO(), "example-xxxxx", metav1.GetOptions{})
 		if errors.IsNotFound(err) {
-			fmt.Printf("Pod example-xxxxx not found in default namespace\n")
+			log.Print("IngressClass example-xxxxx not found in default namespace")
 		} else if statusError, isStatus := err.(*errors.StatusError); isStatus {
-			fmt.Printf("Error getting pod %v\n", statusError.ErrStatus.Message)
+			log.Printf("Error getting ingressClass %v", statusError.ErrStatus.Message)
 		} else if err != nil {
 			panic(err.Error())
 		} else {
-			fmt.Printf("Found example-xxxxx pod in default namespace\n")
+			log.Print("Found example-xxxxx ingressClass")
 		}
 
 		time.Sleep(10 * time.Second)
