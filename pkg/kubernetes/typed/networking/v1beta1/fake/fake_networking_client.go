@@ -28,10 +28,6 @@ type FakeNetworkingV1beta1 struct {
 	*testing.Fake
 }
 
-func (c *FakeNetworkingV1beta1) Ingresses(namespace string) v1beta1.IngressInterface {
-	return &FakeIngresses{c, namespace}
-}
-
 func (c *FakeNetworkingV1beta1) IngressClasses() v1beta1.IngressClassInterface {
 	return &FakeIngressClasses{c}
 }
