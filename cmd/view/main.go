@@ -8,8 +8,7 @@ import (
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"k8s.io/client-go/kubernetes"
-	// "github.com/BedivereZero/study-crd/pkg/kubernetes"
+	"github.com/BedivereZero/study-crd/pkg/kubernetes"
 	"k8s.io/client-go/rest"
 	//
 	// Uncomment to load all auth plugins
